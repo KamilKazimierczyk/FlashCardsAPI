@@ -2,6 +2,11 @@ const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
+exports.setMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
+
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find().select('+active');
 
@@ -14,7 +19,9 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 });
 
 exports.getUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
+  const user = await User.findById(req.params.id).populate({
+    path: 'favourites',
+  });
 
   if (!user) return next(new AppError('There is no user with this ID', 404));
 

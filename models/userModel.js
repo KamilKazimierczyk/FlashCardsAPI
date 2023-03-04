@@ -36,7 +36,10 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'admin'],
     default: 'user',
   },
-  passwordChangedAt: Date,
+  passwordChangedAt: {
+    type: Date,
+    select: false,
+  },
   passwordResetToken: String,
   passwordResetExpires: Date,
   active: {
@@ -44,6 +47,12 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+});
+
+userSchema.virtual('favourites', {
+  ref: 'Favourite',
+  foreignField: 'user',
+  localField: '_id',
 });
 
 userSchema.pre('save', async function (next) {
