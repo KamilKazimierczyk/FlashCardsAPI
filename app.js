@@ -4,10 +4,13 @@ const userRouter = require('./routes/userRouter');
 const languageRouter = require('./routes/languageRouter');
 const errorHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
+const cors = require('cors');
 
 const app = express();
 
 app.use(express.json());
+
+app.use(cors());
 
 //routes
 app.use('/api/v1/flashCard', flashCardRouter);

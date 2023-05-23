@@ -18,6 +18,7 @@ module.exports.isOwnerOrAdmin = catchAsync(async (req, res, next) => {
 module.exports.getAllFlashCards = catchAsync(async (req, res, next) => {
   const query = new APIFeatures(FlashCard.find(), req.query)
     .filter()
+    .text()
     .sort()
     .limitFields()
     .paginate();

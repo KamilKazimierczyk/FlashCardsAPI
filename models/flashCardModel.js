@@ -64,6 +64,8 @@ flashCardSchema.virtual('words', {
   localField: '_id',
 });
 
+flashCardSchema.index({ name: 'text', description: 'text' });
+
 const FlashCard = mongoose.model('FlashCard', flashCardSchema);
 
 module.exports = FlashCard;
