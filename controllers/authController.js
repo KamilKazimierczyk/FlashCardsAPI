@@ -21,8 +21,10 @@ const sendTokenResponse = (user, statusCode, res) => {
       Date.now() + process.env.JWT_EXPIRES_COOKIE * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
+    sameSite: 'None',
+    secure: true,
   };
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+  // if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
   res.cookie('jwt', token, cookieOptions);
 
@@ -142,6 +144,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith('Bearer')
   )
     token = req.headers.authorization.split(' ')[1];
+  else if (req.cookie.jwt) token = req.cookie.jwt;
 
   if (!token)
     return next(new AppError("You're not logged in. Please log in first", 401));

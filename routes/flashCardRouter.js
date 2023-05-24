@@ -21,7 +21,7 @@ router
 
 router
   .route('/:id')
-  .get(flashCard.getFlashCardByID)
+  .get(authController.protect, flashCard.getFlashCardByID)
   .patch(
     authController.protect,
     authController.restrictTo('user', 'admin'),
