@@ -10,7 +10,8 @@ router
   .route('/')
   .get(translationController.getAllTranslations)
   .post(
-    authController.restrictTo('user'),
+    authController.restrictTo('user', 'admin'),
+    translationController.isOwnerOrAdmin,
     translationController.createTranslations
   );
 
